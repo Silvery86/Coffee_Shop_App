@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { useStore } from '../store/store'
 import { getActionFromState } from '@react-navigation/native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
@@ -7,6 +7,7 @@ import { BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/th
 import HeaderBar from '../components/HeaderBar';
 import { Touchable } from 'react-native';
 import CustomIcon from '../components/CustomIcon';
+import CoffeeCard from '../components/CoffeeCard';
 
 const getCotegoriesFromData = (data: any) => {
   let temp: any = {};
@@ -43,7 +44,7 @@ const HomeScreen = () => {
   const [sortedCoffee, setSortedCoffee] = useState(getCoffeeList(categoryIndex.category, CoffeeList));
 
   const tabBarHeight = useBottomTabBarHeight();
-  console.log('Sort:',sortedCoffee.length)
+  console.log('Sort:', sortedCoffee.length)
   return (
     <View style={styles.ScreenContainer}>
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -84,15 +85,15 @@ const HomeScreen = () => {
               key={index.toString()}
               style={styles.CategoryScrollViewContainer}
             >
-              <TouchableOpacity 
-              style={styles.CategoryScrollViewItem} 
-              onPress={() => {
-                setCategoryIndex({index:index, category: categories[index]});
-                setSortedCoffee([...getCoffeeList(categories[index],CoffeeList)])
-              }}>
+              <TouchableOpacity
+                style={styles.CategoryScrollViewItem}
+                onPress={() => {
+                  setCategoryIndex({ index: index, category: categories[index] });
+                  setSortedCoffee([...getCoffeeList(categories[index], CoffeeList)])
+                }}>
                 <Text style={[
                   styles.CategoryText,
-                  categoryIndex.index == index ? {color: COLORS.primaryOrangeHex} : {},
+                  categoryIndex.index == index ? { color: COLORS.primaryOrangeHex } : {},
                 ]}>
                   {data}
                 </Text>
@@ -101,7 +102,32 @@ const HomeScreen = () => {
             </View>
           ))}
         </ScrollView>
+            {/* Coffee Flatlist */}
+            <FlatList 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            data={sortedCoffee}
+            contentContainerStyle={styles.FlatListContainer}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => {
+              return <TouchableOpacity>
+                <CoffeeCard 
+                id = {item.id}
+                index = {item.index}
+                type = {item.type} 
+                rosted = {item.rosted}
+                imagelink_square = {item.imagelink_square}
+                name = {item.name}
+                special_ingredient = {item.special_ingredient}
+                average_rating = {item.average_rating}
+                price = {item.prices[2]}
+                buttonPressHandler = {() => { }}
+                />
+              </TouchableOpacity>
+            }}
+            />
 
+            {/* Bean Flatlist */}    
       </ScrollView>
     </View>
   )
@@ -161,6 +187,11 @@ const styles = StyleSheet.create({
     color: COLORS.primaryLightGreyHex,
     marginBottom: SPACING.space_4,
   },
+  FlatListContainer : {
+    gap:SPACING.space_20,
+    paddingVertical: SPACING.space_20,
+    paddingHorizontal: SPACING.space_30,
+  }
 })
 
 export default HomeScreen
