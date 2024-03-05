@@ -32,7 +32,7 @@ const getCoffeeList = (category: string, data: any) => {
   }
 }
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation} : any) => {
   const CoffeeList = useStore((state: any) => state.CoffeeList);
   const BeanList = useStore((state: any) => state.BeanList);
   const [categories, setCategories] = useState(getCotegoriesFromData(CoffeeList));
@@ -159,7 +159,7 @@ const HomeScreen = () => {
           contentContainerStyle={styles.FlatListContainer}
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
-            return <TouchableOpacity onPress={() => { }}>
+            return <TouchableOpacity onPress={() => { navigation.push('Details'); }}>
               <CoffeeCard
                 id={item.id}
                 index={item.index}
@@ -185,7 +185,7 @@ const HomeScreen = () => {
           contentContainerStyle={[styles.FlatListContainer, { marginBottom: tabBarHeight }]}
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
-            return <TouchableOpacity onPress={() => { }}>
+            return <TouchableOpacity onPress={() => { navigation.push('Details'); }}>
               <CoffeeCard
                 id={item.id}
                 index={item.index}
