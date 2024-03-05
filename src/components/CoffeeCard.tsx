@@ -54,7 +54,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
         <Text style={styles.CardSubTitle}>{special_ingredient}</Text>
         <View style={styles.CardFooterRow}>
           <Text style={styles.CardPriceCurency}>$<Text style={styles.CardPrice}>{price.price}</Text></Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {}}>
           <BGIcon 
           color={COLORS.primaryWhiteHex} 
           name={'add'} 

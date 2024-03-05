@@ -53,7 +53,7 @@ const BeansData = [
       {size: '500gm', price: '10.50', currency: '$'},
       {size: '1Kg', price: '18.50', currency: '$'},
     ],
-    average_rating: 4.7,
+    average_rating: 4.8,
     ratings_count: '6,879',
     favourite: false,
     type: 'Bean',
