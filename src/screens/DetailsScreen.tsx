@@ -14,11 +14,13 @@ const DetailsScreen = ({ navigation, route }: any) => {
   const deleteToFavouriteList = useStore((state: any) => state.deleteToFavouriteList)
   const addToCart = useStore((state: any) => state.addToCart)
   const calculateCartPrice = useStore((state: any) => state.calculateCartPrice)
+  const removeCart = useStore((state: any) => state.removeCart)
 
   const ToggleFavourite = (favourite: boolean, type: string, id: string) => {
     favourite ? deleteToFavouriteList(type, id) : addToFavouriteList(type, id)
   }
   const BackHandler = () => {
+    // removeCart();
     navigation.pop();
   }
   const [fullDesc, setFullDesc] = useState(false);
@@ -43,9 +45,9 @@ const DetailsScreen = ({ navigation, route }: any) => {
       special_ingredient,
       type,
       prices: [{ ...price, quantity: 1 }],
-    })
-    calculateCartPrice()
-    navigation.navigate('Cart')
+    });
+    calculateCartPrice();
+    navigation.navigate('Cart');
   }
   return (
     <View style={styles.ScreenContainer}>
@@ -111,18 +113,17 @@ const DetailsScreen = ({ navigation, route }: any) => {
         <PaymentFooter
           price={price}
           buttonTitle="Add to Cart"
-          buttonPressHandler={() => {
-            addToCartHandler({
-              id: ItemOfIndex.id,
-              index: ItemOfIndex.index,
-              name: ItemOfIndex.name,
-              roasted: ItemOfIndex.roasted,
-              imagelink_square: ItemOfIndex.imagelink_square,
-              special_ingredient: ItemOfIndex.special_ingredient,
-              type: ItemOfIndex.type,
-              price: price,
-            });
-          }}
+          buttonPressHandler={() => { addToCartHandler ({
+            id: ItemOfIndex.id,
+            index: ItemOfIndex.index,
+            name: ItemOfIndex.name,
+            roasted: ItemOfIndex.roasted,
+            imagelink_square: ItemOfIndex.imagelink_square,
+            special_ingredient: ItemOfIndex.special_ingredient,
+            type: ItemOfIndex.type,
+            price: price,
+          });
+        }}
         />
       </ScrollView>
     </View>
