@@ -49,6 +49,7 @@ const DetailsScreen = ({ navigation, route }: any) => {
     calculateCartPrice();
     navigation.navigate('Cart');
   }
+  
   return (
     <View style={styles.ScreenContainer}>
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
