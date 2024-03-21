@@ -35,6 +35,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
   BackHandler,
   ToggleFavourite,
 }) => {
+
   return (
     <View>
       <ImageBackground
@@ -49,7 +50,9 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
               size={FONTSIZE.size_16}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => ToggleFavourite(favourite, type, id)}>
+          <TouchableOpacity onPress={() => {
+            console.log('click');
+            ToggleFavourite(favourite, type, id)}}>
             <GradientBGIcon
               name="like"
               color={favourite ? COLORS.primaryRedHex : COLORS.primaryLightGreyHex}
@@ -59,7 +62,9 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
         </View>
       ) : (
         <View style={styles.ImageHeaderBarContainerWithoutBack}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+            console.log('click');
+            ToggleFavourite(favourite, type, id)}}>
             <GradientBGIcon
               name="like"
               color={favourite ? COLORS.primaryRedHex : COLORS.primaryLightGreyHex}

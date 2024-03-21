@@ -1,30 +1,21 @@
-import React from 'react';
-import { ScrollView, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React from 'react'
+import { ScrollView, StyleSheet, View, StatusBar, TouchableOpacity } from 'react-native';
 import { useStore } from '../store/store';
+import FavoritesItemCard from '../components/FavoritesItemCard';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { COLORS, SPACING } from '../theme/theme';
 import HeaderBar from '../components/HeaderBar';
 import EmptyListAnimation from '../components/EmptyListAnimation';
-import PaymentFooter from '../components/PaymentFooter';
-import CartItem from '../components/CartItem';
 
-const CartScreen = ({ navigation }: any) => {
-  const CartList = useStore((state: any) => state.CartList)
-  const CartPrice = useStore((state: any) => state.CartPrice)
-  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice)
-  const incrementCartItemQuantity = useStore((state: any) => state.incrementCartItemQuantity)
-  const decrementCartItemQuantity = useStore((state: any) => state.decrementCartItemQuantity)
+
+
+const FavoritesScreen = ({ navigation}: any) => {
+  const FavoritesList = useStore((state: any) => state.FavoritesList);
   const tabBarHeight = useBottomTabBarHeight();
-  const buttonPressHandler = () => {
-    navigation.push('Payment')
-  }
-  const incrementCartItemQuantityHandler = (id: string, size: string) => {
-    incrementCartItemQuantity(id, size);
-    calculateCartPrice();
-  }
-  const decrementCartItemQuantityHandler = (id: string, size: string) => {
-    decrementCartItemQuantity(id, size);
-    calculateCartPrice();
+  const addToFavouriteList = useStore((state: any) => state.addToFavouriteList)
+  const deleteToFavouriteList = useStore((state: any) => state.deleteToFavouriteList)
+  const ToggleFavourite = (favourite: boolean, type: string, id: string) => {
+    favourite ? deleteToFavouriteList(type, id) : addToFavouriteList(type, id)
   }
   return (
     <View style={styles.ScreenContainer}>
@@ -35,14 +26,14 @@ const CartScreen = ({ navigation }: any) => {
       >
         <View style={[styles.ScrollViewInnerView, { marginBottom: tabBarHeight }]}>
           <View style={styles.ItemContainer}>
-            <HeaderBar title='Cart' />
+            <HeaderBar title='Favourites' />
 
-            {CartList.length == 0
-              ? (<EmptyListAnimation title='This cart is empty' />)
+            {FavoritesList.length == 0
+              ? (<EmptyListAnimation title='No Favourite' />)
               : (
                 <View style={styles.ListItemContainer}>
-                  {CartList.map((data: any) => (
-
+                  {FavoritesList.map((data: any) => (
+                    
                     <TouchableOpacity
                       onPress={() => {
                         navigation.push('Details', {
@@ -53,16 +44,19 @@ const CartScreen = ({ navigation }: any) => {
                       }}
                       key={data.id}
                     >
-                      <CartItem
+                      <FavoritesItemCard
                         id={data.id}
                         name={data.name}
-                        imagelink_square={data.imagelink_square}
+                        imagelink_portrait={data.imagelink_portrait}
                         special_ingredient={data.special_ingredient}
-                        roasted={data.roasted}
-                        prices={data.prices}
                         type={data.type}
-                        incrementCartItemQuantityHandler={incrementCartItemQuantityHandler}
-                        decrementCartItemQuantityHandler={decrementCartItemQuantityHandler}
+                        ingredients={data.ingredients}
+                        average_rating={data.average_rating}
+                        ratings_count={data.ratings_count}
+                        roasted={data.roasted}
+                        description={data.description}
+                        favourite={data.favourite}
+                        ToggleFavouriteItem={ToggleFavourite}
                       />
                     </TouchableOpacity>
                   ))}
@@ -70,14 +64,7 @@ const CartScreen = ({ navigation }: any) => {
               )}
 
           </View>
-          {CartList.length != 0 ? (
-            <PaymentFooter
-              buttonTitle='Pay'
-              price={{ price: CartPrice, currency: '$' }}
-              buttonPressHandler={buttonPressHandler}
-            />
-          )
-            : (<></>)}
+
         </View>
       </ScrollView>
     </View>
@@ -106,4 +93,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CartScreen
+export default FavoritesScreen
